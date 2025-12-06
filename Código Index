@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V&C Store - CDs e Vinis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --azul: #1a237e;
+            --azul-claro: #283593;
+            --vermelho: #d32f2f;
+            --vermelho-escuro: #b71c1c;
+            --cinza-claro: #f5f5f5;
+            --cinza: #9e9e9e;
+            --cinza-escuro: #424242;
+            --branco: #ffffff;
+            --preto: #212121;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--cinza-claro);
+            color: var(--preto);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(to right, var(--azul), var(--azul-claro));
+            color: var(--branco);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--vermelho);
+            font-size: 2.5rem;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--branco);
+        }
+        
+        .logo span {
+            color: var(--vermelho);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: var(--branco);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--branco);
+        }
+        
+        .cart-icon {
+            position: relative;
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--vermelho);
+            color: var(--branco);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../E-COMMERCE/imagens/imagemdocardprincipal.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--branco);
+            text-align: center;
+            padding: 170px 0;
+            margin-bottom: 50px;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--vermelho);
+            color: var(--branco);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s, transform 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--vermelho-escuro);
+            transform: translateY(-3px);
+        }
+        
+        .btn-azul {
+            background-color: var(--azul);
+        }
+        
+        .btn-azul:hover {
+            background-color: var(--azul-claro);
+        }
+        
+        /* Categorias */
+        .categorias {
+            padding: 60px 0;
+            background-color: var(--branco);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+            color: var(--azul);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--vermelho);
+            margin: 10px auto 0;
+        }
+        
+        .categorias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .categoria-card {
+            background-color: var(--cinza-claro);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: var(--preto);
+        }
+        
+        .categoria-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .categoria-img {
+            height: 180px;
+            background-color: var(--azul);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .categoria-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .categoria-card:hover .categoria-img img {
+            transform: scale(1.05);
+        }
+        
+        .categoria-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .categoria-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--azul);
+        }
+        
+        /* Produtos em Destaque */
+        .destaques {
+            padding: 60px 0;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background-color: var(--branco);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-image {
+            height: 316px;
+            width: 100%;
+            background-color: var(--cinza-claro);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--vermelho);
+            color: var(--branco);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .artist {
+            color: var(--vermelho);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .album-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--azul);
+        }
+        
+        .product-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--cinza-claro);
+        }
+        
+        .format {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            color: var(--azul);
+        }
+        
+        .format i {
+            color: var(--vermelho);
+        }
+        
+        .price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--azul);
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            background-color: var(--azul);
+            color: var(--branco);
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--azul-claro);
+        }
+        
+        .ver-todos {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--azul);
+            color: var(--branco);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--branco);
+        }
+        
+        .footer-section p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--branco);
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--vermelho);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--branco);
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+            display: block;
+            padding: 5px 0;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--branco);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+                padding: 0 20px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .categorias-grid, .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-compact-disc"></i>
+                <h1>V&C <span>Store</span></h1>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Início</a></li>
+                    <li><a href="paginas/cds.html"><i class="fas fa-compact-disc"></i> CDs</a></li>
+                    <li><a href="paginas/vinis.html"><i class="fas fa-record-vinyl"></i> Vinis</a></li>
+                    <li><a href="paginas/hiphop.html"><i class="fas fa-microphone"></i> Hip-Hop</a></li>
+                    <li><a href="paginas/trap.html"><i class="fas fa-music"></i> Trap</a></li>
+                    <li><a href="paginas/lancamentos.html"><i class="fas fa-star"></i> Lançamentos</a></li>
+                </ul>
+            </nav>
+            <a href="paginas/carrinho.html" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <div class="cart-count">0</div>
+            </a>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>A Melhor Coleção de CDs e Vinis</h2>
+            <p>Encontre os melhores álbuns de hip-hop, trap e música latina em formato físico. Prezamos pela qualidade do som e experiência única que apenas um disco físico pode oferecer.</p>
+            <a href="#destaques" class="btn">Explorar Álbuns</a>
+        </div>
+    </section>
+    
+    <!-- Categorias -->
+    <section class="categorias">
+        <div class="container">
+            <h2 class="section-title">Navegue por Categorias</h2>
+            <div class="categorias-grid">
+                <a href="paginas/cds.html" class="categoria-card">
+                    <div class="categoria-img">
+                        <img src="../E-COMMERCE/imagens/250px-CD_autolev_crop.jpg" alt="CDs">
+                    </div>
+                    <div class="categoria-info">
+                        <h3>CDs</h3>
+                        <p>Mais de 500 títulos disponíveis</p>
+                    </div>
+                </a>
+                
+                <a href="paginas/vinis.html" class="categoria-card">
+                    <div class="categoria-img">
+                        <img src="../E-COMMERCE/imagens/disco-de-vinil-laranja-isolado-no-fundo-branco_118047-14783.avif" alt="Vinis">
+                    </div>
+                    <div class="categoria-info">
+                        <h3>Vinis</h3>
+                        <p>Experiência sonora premium</p>
+                    </div>
+                </a>
+                
+                <a href="paginas/hiphop.html" class="categoria-card">
+                    <div class="categoria-img">
+                        <img src="../E-COMMERCE/imagens/ilustracao-vetorial-de-hip-hop-t-shirt-ou-arte-de-parede-legal-em-estilo-graffiti_675911-520.avif" alt="Hip-Hop">
+                    </div>
+                    <div class="categoria-info">
+                        <h3>Hip-Hop</h3>
+                        <p>Os maiores nomes do gênero</p>
+                    </div>
+                </a>
+                
+                <a href="paginas/trap.html" class="categoria-card">
+                    <div class="categoria-img">
+                        <img src="../E-COMMERCE/imagens/ab67616d0000b27304ca3faa5745ec1e470d1bb4.jpg" alt="Trap">
+                    </div>
+                    <div class="categoria-info">
+                        <h3>Trap</h3>
+                        <p>As batidas mais pesadas</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Produtos em Destaque -->
+    <section class="destaques" id="destaques">
+        <div class="container">
+            <h2 class="section-title">Álbuns em Destaque</h2>
+            <div class="products-grid">
+                <!-- JACKBOYS - JACKBOYS (Vinil) -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../E-COMMERCE/imagens/JACKBOYS_-_Album_Cover_by_JACKBOYS_&_Travis_Scott,_December_27,_2019.jpg" alt="Álbum JACKBOYS">
+                        <div class="product-badge">DESTAQUE</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="artist">JACKBOYS</div>
+                        <div class="album-title">JACKBOYS</div>
+                        <div class="product-options">
+                            <div class="format">
+                                <i class="fas fa-record-vinyl"></i>
+                                <span>Vinil</span>
+                            </div>
+                            <div class="price">R$ 129,90</div>
+                        </div>
+                        <button class="add-to-cart" data-artist="JACKBOYS" data-title="JACKBOYS" data-price="129.90" data-format="Vinil" data-image="https://m.media-amazon.com/images/I/81jqRIm2UtL.jpg">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- I AM MUSIC - Playboi Carti (CD) -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../E-COMMERCE/imagens/I_Am_Music_by_Playboi_Carti.jpg" alt="Álbum I AM MUSIC">
+                    </div>
+                    <div class="product-info">
+                        <div class="artist">Playboi Carti</div>
+                        <div class="album-title">I AM MUSIC</div>
+                        <div class="product-options">
+                            <div class="format">
+                                <i class="fas fa-compact-disc"></i>
+                                <span>CD</span>
+                            </div>
+                            <div class="price">R$ 69,90</div>
+                        </div>
+                        <button class="add-to-cart" data-artist="Playboi Carti" data-title="I AM MUSIC" data-price="69.90" data-format="CD" data-image="https://upload.wikimedia.org/wikipedia/commons/7/7b/I_Am_Music_by_Playboi_Carti.jpg">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- ASTROWORLD - Travis Scott (Vinil) -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../E-COMMERCE/imagens/Astroworld_Travis.jpg" alt="Álbum ASTROWORLD">
+                        <div class="product-badge">POPULAR</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="artist">Travis Scott</div>
+                        <div class="album-title">ASTROWORLD</div>
+                        <div class="product-options">
+                            <div class="format">
+                                <i class="fas fa-record-vinyl"></i>
+                                <span>Vinil</span>
+                            </div>
+                            <div class="price">R$ 159,90</div>
+                        </div>
+                        <button class="add-to-cart" data-artist="Travis Scott" data-title="ASTROWORLD" data-price="159.90" data-format="Vinil" data-image="https://upload.wikimedia.org/wikipedia/pt/6/63/Astroworld_Travis.jpg">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- DAMN. - Kendrick Lamar (CD) -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../E-COMMERCE/imagens/Damn.-Kendrick_Lamar.jpg" alt="Álbum DAMN.">
+                    </div>
+                    <div class="product-info">
+                        <div class="artist">Kendrick Lamar</div>
+                        <div class="album-title">DAMN.</div>
+                        <div class="product-options">
+                            <div class="format">
+                                <i class="fas fa-compact-disc"></i>
+                                <span>CD</span>
+                            </div>
+                            <div class="price">R$ 64,90</div>
+                        </div>
+                        <button class="add-to-cart" data-artist="Kendrick Lamar" data-title="DAMN." data-price="64.90" data-format="CD" data-image="https://upload.wikimedia.org/wikipedia/pt/2/20/Damn.-Kendrick_Lamar.jpg">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- WE DON'T TRUST YOU - Metro Boomin & Future (Vinil) -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../E-COMMERCE/imagens/images.jpg" alt="Álbum WE DON'T TRUST YOU">
+                        <div class="product-badge">LANÇAMENTO</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="artist">Metro Boomin & Future</div>
+                        <div class="album-title">WE DON'T TRUST YOU</div>
+                        <div class="product-options">
+                            <div class="format">
+                                <i class="fas fa-record-vinyl"></i>
+                                <span>Vinil</span>
+                            </div>
+                            <div class="price">R$ 149,90</div>
+                        </div>
+                        <button class="add-to-cart" data-artist="Metro Boomin & Future" data-title="WE DON'T TRUST YOU" data-price="149.90" data-format="Vinil" data-image="https://upload.wikimedia.org/wikipedia/en/8/8a/Future_and_Metro_Boomin_-_We_Don%27t_Trust_You.png">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- DeBÍ TiRAR Más FOToS - Bad Bunny (CD) -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../E-COMMERCE/imagens/Debí_Tirar_Más_Fotos.png" alt="Álbum DeBÍ TiRAR Más FOToS">
+                        <div class="product-badge">MAIS VENDIDO</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="artist">Bad Bunny</div>
+                        <div class="album-title">DeBÍ TiRAR Más FOToS</div>
+                        <div class="product-options">
+                            <div class="format">
+                                <i class="fas fa-compact-disc"></i>
+                                <span>CD</span>
+                            </div>
+                            <div class="price">R$ 79,90</div>
+                        </div>
+                        <button class="add-to-cart" data-artist="Bad Bunny" data-title="DeBÍ TiRAR Más FOToS" data-price="79.90" data-format="CD" data-image="https://upload.wikimedia.org/wikipedia/pt/a/a5/Deb%C3%AD_Tirar_M%C3%A1s_Fotos.png">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- To Pimp a Butterfly - Kendrick Lamar (Vinil) -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../E-COMMERCE/imagens/To_Pimp_a_Butterfly.jpg" alt="Álbum To Pimp a Butterfly">
+                        <div class="product-badge">COLECIONADOR</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="artist">Kendrick Lamar</div>
+                        <div class="album-title">To Pimp a Butterfly</div>
+                        <div class="product-options">
+                            <div class="format">
+                                <i class="fas fa-record-vinyl"></i>
+                                <span>Vinil</span>
+                            </div>
+                            <div class="price">R$ 179,90</div>
+                        </div>
+                        <button class="add-to-cart" data-artist="Kendrick Lamar" data-title="To Pimp a Butterfly" data-price="179.90" data-format="Vinil" data-image="https://upload.wikimedia.org/wikipedia/pt/thumb/c/c9/To_Pimp_a_Butterfly.jpg/250px-To_Pimp_a_Butterfly.jpg">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- The College Dropout - Kanye West (CD) -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../E-COMMERCE/imagens/Kanyewest_collegedropout.jpg" alt="Álbum The College Dropout">
+                    </div>
+                    <div class="product-info">
+                        <div class="artist">Kanye West</div>
+                        <div class="album-title">The College Dropout</div>
+                        <div class="product-options">
+                            <div class="format">
+                                <i class="fas fa-compact-disc"></i>
+                                <span>CD</span>
+                            </div>
+                            <div class="price">R$ 89,90</div>
+                        </div>
+                        <button class="add-to-cart" data-artist="Kanye West" data-title="The College Dropout" data-price="89.90" data-format="CD" data-image="https://upload.wikimedia.org/wikipedia/pt/a/a3/Kanyewest_collegedropout.jpg">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ver-todos">
+                <a href="paginas/lancamentos.html" class="btn btn-azul">Ver Todos os Lançamentos</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>V&C Store</h3>
+                    <p>Especializada em CDs e vinis dos melhores artistas do hip-hop, trap e música latina. Oferecemos produtos de alta qualidade para colecionadores e amantes da música.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Navegação</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="paginas/cds.html">CDs</a></li>
+                        <li><a href="paginas/vinis.html">Vinis</a></li>
+                        <li><a href="paginas/hiphop.html">Hip-Hop</a></li>
+                        <li><a href="paginas/trap.html">Trap</a></li>
+                        <li><a href="paginas/lancamentos.html">Lançamentos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Rua da Música, 123 - Centro, SP</p>
+                    <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                    <p><i class="fas fa-envelope"></i> contato@vcstore.com</p>
+                    <p><i class="fas fa-clock"></i> Seg-Sex: 10h-20h | Sáb: 10h-18h</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 V&C Store. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Sistema de Carrinho
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const cartCount = document.querySelector('.cart-count');
+            
+            // Inicializar carrinho vazio
+            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            
+            // Remover frete do carrinho se existir como item
+            cartItems = cartItems.filter(item => item.title !== "Frete");
+            
+            // Salvar carrinho limpo
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            
+            // Atualizar contador do carrinho
+            function updateCartCount() {
+                let count = cartItems.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = count;
+            }
+            
+            // Inicializar contador
+            updateCartCount();
+            
+            // Adicionar ao carrinho
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const artist = this.getAttribute('data-artist');
+                    const title = this.getAttribute('data-title');
+                    const price = parseFloat(this.getAttribute('data-price'));
+                    const format = this.getAttribute('data-format');
+                    const image = this.getAttribute('data-image');
+                    
+                    // Verificar se o item já está no carrinho
+                    const existingItemIndex = cartItems.findIndex(item => 
+                        item.title === title && item.format === format
+                    );
+                    
+                    if (existingItemIndex > -1) {
+                        // Se já existe, aumenta a quantidade
+                        cartItems[existingItemIndex].quantity++;
+                    } else {
+                        // Se não existe, adiciona novo item
+                        cartItems.push({
+                            artist: artist,
+                            title: title,
+                            price: price,
+                            format: format,
+                            image: image,
+                            quantity: 1
+                        });
+                    }
+                    
+                    // Salvar no localStorage
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    
+                    // Atualizar contador
+                    updateCartCount();
+                    
+                    // Animação de adição
+                    this.innerHTML = '<i class="fas fa-check"></i> Adicionado!';
+                    this.style.backgroundColor = '#27ae60';
+                    
+                    // Resetar botão após 1.5 segundos
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-cart-plus"></i> Adicionar ao Carrinho';
+                        this.style.backgroundColor = '';
+                    }, 1500);
+                });
+            });
+            
+            // Salvar configuração do frete no localStorage
+            localStorage.setItem('frete', '6.00');
+        });
+    </script>
+</body>
+</html>
